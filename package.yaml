@@ -1,0 +1,75 @@
+name: pracths
+version: 0.0.0.0
+
+extra-source-files:
+  - README.md
+
+default-extensions:
+#  - AllowAmbiguousTypes
+#  - ApplicativeDo
+#  - BangPatterns
+#  - ConstraintKinds
+#  - DataKinds
+#  - DeriveGeneric
+#  - DerivingStrategies
+#  - DerivingVia
+  - FlexibleContexts
+  - FlexibleInstances
+#  - GADTs
+#  - GeneralizedNewtypeDeriving
+#  - KindSignatures
+#  - LambdaCase
+  - MultiParamTypeClasses
+#  - NamedFieldPuns
+#  - OverloadedStrings
+#  - PolyKinds
+#  - QuantifiedConstraints
+#  - RankNTypes
+#  - ScopedTypeVariables
+#  - StandaloneDeriving
+#  - TemplateHaskell
+#  - TupleSections
+#  - TypeApplications
+#  - TypeFamilies
+#  - TypeOperators
+#  - UndecidableInstances
+#  - UndecidableSuperClasses
+
+ghc-options:
+  - -Wall
+  - -Wcompat
+  - -Widentities
+  - -Wincomplete-record-updates
+  - -Wincomplete-uni-patterns
+  - -Wmissing-home-modules
+  - -Wpartial-fields
+  - -Wredundant-constraints
+  - -Wcpp-undef
+#  - -Wmissing-export-lists
+#  - -Wmonomorphism-restriction
+
+dependencies:
+  - base >= 4.7
+
+library:
+  source-dirs: src
+  dependencies: []
+
+tests:
+  pracths-test:
+    main: Test.hs
+    source-dirs: test
+    dependencies:
+      - pracths
+      - hedgehog
+      - HUnit
+      - tasty
+      - tasty-hedgehog
+      - tasty-hunit
+    build-tools: tasty-discover:tasty-discover
+
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+
