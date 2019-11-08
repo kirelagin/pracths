@@ -1,6 +1,7 @@
 module Vec where
 
-import Data.Kind (Type)
+import Data.Kind (Constraint, Type)
+import GHC.TypeLits (TypeError, ErrorMessage (..))
 
 import Nat
 
@@ -41,3 +42,20 @@ instance KnownNat 'Zero where
 
 instance KnownNat n => KnownNat ('Succ n) where
   natToInteger = 1 + natToInteger @n
+
+
+type family Leq (n :: Nat) (m :: Nat) :: Constraint where
+  Leq 'Zero m = ()
+  Leq ('Succ n) ('Succ m) = Leq n m
+  Leq n m = TypeError
+    ('Text "Not " :<>: 'ShowType n :<>: 'Text " <= " :<>: 'ShowType m)
+
+
+class Vtake (n :: Nat) (m :: Nat) where
+  vtake :: Leq n m => Vec m a -> Vec n a
+
+instance Vtake 'Zero m where
+  vtake _ = VNil
+
+instance Vtake n m => Vtake ('Succ n) ('Succ m) where
+  vtake (VCons x xs) = VCons x (vtake xs)

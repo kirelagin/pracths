@@ -31,8 +31,8 @@ default-extensions:
 #  - TupleSections
   - TypeApplications
   - TypeFamilies
-#  - TypeOperators
-#  - UndecidableInstances
+  - TypeOperators
+  - UndecidableInstances
 #  - UndecidableSuperClasses
 
 ghc-options:
