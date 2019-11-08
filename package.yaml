@@ -15,7 +15,7 @@ default-extensions:
 #  - DerivingVia
   - FlexibleContexts
   - FlexibleInstances
-#  - GADTs
+  - GADTs
 #  - GeneralizedNewtypeDeriving
 #  - KindSignatures
 #  - LambdaCase
