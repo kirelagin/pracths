@@ -48,7 +48,7 @@ type family Leq (n :: Nat) (m :: Nat) :: Constraint where
   Leq 'Zero m = ()
   Leq ('Succ n) ('Succ m) = Leq n m
   Leq n m = TypeError
-    ('Text "Not " :<>: 'ShowType n :<>: 'Text " <= " :<>: 'ShowType m)
+    ('Text "Not " ':<>: 'ShowType n ':<>: 'Text " <= " ':<>: 'ShowType m)
 
 
 class Vtake (n :: Nat) (m :: Nat) where
