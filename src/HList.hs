@@ -82,7 +82,10 @@ instance MapFunction Shower String where
   type MapType Shower String = String
   mapVal = id
 
-
+instance MapFunction Shower Bool where
+  type MapType Shower Bool = Char
+  mapVal False = 'N'
+  mapVal True = 'Y'
 
 
 class HMap (f :: Type) (as :: [Type]) where

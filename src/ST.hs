@@ -44,6 +44,7 @@ main :: IO ()
 main =
   let x = runST test in print x
 
+{-
 bad :: ST s (STRef s Int)
 bad = do
   r <- newSTRef 0
@@ -61,3 +62,4 @@ veryVeryBad :: Int
 veryVeryBad =
   let r = runST (newSTRef 0)
   in runST (veryBad r)
+-}
