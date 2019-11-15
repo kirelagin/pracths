@@ -13,10 +13,11 @@ default-extensions:
 #  - DeriveGeneric
 #  - DerivingStrategies
 #  - DerivingVia
+  - ExistentialQuantification
   - FlexibleContexts
   - FlexibleInstances
   - GADTs
-#  - GeneralizedNewtypeDeriving
+  - GeneralizedNewtypeDeriving
   - KindSignatures
 #  - LambdaCase
   - MultiParamTypeClasses
@@ -24,7 +25,7 @@ default-extensions:
 #  - OverloadedStrings
   - PolyKinds
 #  - QuantifiedConstraints
-#  - RankNTypes
+  - RankNTypes
   - ScopedTypeVariables
 #  - StandaloneDeriving
 #  - TemplateHaskell
