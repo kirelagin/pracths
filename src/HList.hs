@@ -58,9 +58,17 @@ type family Len (as :: [k]) :: Nat where
   Len (x ': xs) = 'Succ (Len xs)
 
 hlist2vec :: All ((~) a) as => HList as -> Vec (Len as) a
---hlist2vec :: HList (Replicate n a) -> Vec n a
 hlist2vec HNil = VNil
 hlist2vec (HCons x xs) = VCons x (hlist2vec xs)
+
+class HList2Vec' (n :: Nat) where
+  hlist2vec' :: HList (Replicate n a) -> Vec n a
+
+instance HList2Vec' 'Zero where
+  hlist2vec' HNil = VNil
+
+instance HList2Vec' n => HList2Vec' ('Succ n) where
+  hlist2vec' (HCons x xs) = VCons x (hlist2vec' xs)
 
 
 type family Map (f :: Type) (as :: [k1]) :: [k2] where
