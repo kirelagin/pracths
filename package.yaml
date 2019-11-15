@@ -8,7 +8,7 @@ default-extensions:
   - AllowAmbiguousTypes
 #  - ApplicativeDo
 #  - BangPatterns
-#  - ConstraintKinds
+  - ConstraintKinds
   - DataKinds
 #  - DeriveGeneric
 #  - DerivingStrategies
@@ -22,7 +22,7 @@ default-extensions:
   - MultiParamTypeClasses
 #  - NamedFieldPuns
 #  - OverloadedStrings
-#  - PolyKinds
+  - PolyKinds
 #  - QuantifiedConstraints
 #  - RankNTypes
   - ScopedTypeVariables
