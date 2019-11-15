@@ -25,4 +25,4 @@ hprop_vtake3of4 = property $ do
   let genint = G.int R.linearBounded
   (a, b, c, d) <- forAll $ (,,,) <$> genint <*> genint <*> genint <*> genint
   let v = VCons a $ VCons b $ VCons c $ VCons d $ VNil
-  "Vec{3}[" <> show a <> "," <> show b <> "," <> show c <> "]" === show (vtake @Five v)
+  "Vec{3}[" <> show a <> "," <> show b <> "," <> show c <> "]" === show (vtake @Three v)
