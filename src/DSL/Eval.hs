@@ -1,17 +1,16 @@
 module DSL.Eval
   ( evalExpr
-  , evalStatement
 
   , runProgram
-  , showProgram
   ) where
 
 import Prelude hiding (lookup)
+import qualified Prelude as P
 
-import Control.Monad.Writer (MonadWriter (tell), execWriter)
+import Control.Monad.Writer (MonadWriter (tell), Writer, execWriter)
 
 import DSL.Env (Assign (assign), Env, Lookup (lookup), empty)
-import DSL.Syntax (Expr (..), Statement (..), Var (..))
+import DSL.Syntax (Expr (..), Syn (..), Var (..))
 
 
 evalExpr :: Expr t map -> Env map -> t
@@ -25,14 +24,13 @@ evalExpr (Sgn e) env = signum $ evalExpr e env
 evalExpr (Len e) env = fromIntegral $ length (evalExpr e env)
 
 
-evalStatement :: MonadWriter [String] m => Statement old new -> Env old -> m (Env new)
-evalStatement (Seq s1 s2) env = evalStatement s1 env >>= evalStatement s2
-evalStatement (Assign (Var :: Var s) e) env = pure $ assign @s (evalExpr e env) env
-evalStatement (Print e) env = tell [show $ evalExpr e env] >> pure env
+newtype Eval m old new = Eval { evalStatement :: Env old -> m (Env new) }
+
+instance MonadWriter [String] m => Syn (Eval m) where
+  Eval s1 >> Eval s2 = Eval $ \env -> s1 env P.>>= s2
+  (Var :: Var s) =: e = Eval $ \env -> pure $ assign @s (evalExpr e env) env
+  print e = Eval $ \env -> tell [show $ evalExpr e env] P.>> pure env
 
 
-runProgram :: Statement '[] new -> [String]
+runProgram :: Eval (Writer [String]) '[] new -> [String]
 runProgram p = execWriter (evalStatement p empty)
-
-showProgram :: Statement old new -> String
-showProgram = show

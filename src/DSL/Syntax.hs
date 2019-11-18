@@ -1,11 +1,8 @@
 module DSL.Syntax
   ( Var (..)
   , Expr (..)
-  , Statement (..)
+  , Syn (..)
 
-  , (>>)
-  , (=:)
-  , print
   , return
 
   , module R
@@ -65,25 +62,13 @@ instance t ~ Integer => Num (Expr t map) where
   signum = Sgn
 
 
-data Statement (old :: VarTypeMap) (new :: VarTypeMap) where
-  Seq :: Statement old map -> Statement map new -> Statement old new
-  Assign :: (E.Assign s t old new, Show t, KnownSymbol s) => Var s -> Expr t old -> Statement old new
-  Print :: Show t => Expr t old -> Statement old old
-
-deriving instance Show (Statement old new)
-
-(>>) :: Statement old map -> Statement map new -> Statement old new
-(>>) = Seq
+class Syn repr where
+  (>>) :: repr old map -> repr map new -> repr old new
+  (=:) :: (E.Assign s t old new, Show t, KnownSymbol s) => Var s -> Expr t old -> repr old new
+  print :: Show t => Expr t old -> repr old old
 
 infixl 1 >>
-
-(=:) :: (E.Assign s t old new, Show t, KnownSymbol s) => Var s -> Expr t old -> Statement old new
-(=:) = Assign
-
 infix 2 =:
-
-print :: Show t => Expr t old -> Statement old old
-print = Print
 
 return :: ()
 return  = ()

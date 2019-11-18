@@ -6,7 +6,7 @@ module Program where
 import DSL.Syntax
 
 
-test :: Statement '[] _
+test :: Syn repr => repr '[] _
 test = do
   #x =: 1
   #y =: #x + 2
