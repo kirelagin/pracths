@@ -2,9 +2,7 @@
 
 module Web.Api.Slack where
 
-import Data.Aeson (FromJSON (parseJSON), Options (..), SumEncoding (..), defaultOptions, genericParseJSON)
-import Data.Char (isLower, toLower)
-import Data.List (intercalate)
+import Data.Aeson (FromJSON (parseJSON), Options (..), SumEncoding (..), defaultOptions, genericParseJSON, camelTo2)
 import GHC.Generics (Generic)
 import Servant.API
 
@@ -44,12 +42,7 @@ import Servant.API
 slackOptions :: Options
 slackOptions = defaultOptions{ constructorTagModifier, sumEncoding }
   where
-    fromCamel [] = []
-    fromCamel (c : cs) =
-      case span isLower cs of
-        (s, rest) -> (toLower c : s) : fromCamel rest
-    toSnake = intercalate "_"
-    constructorTagModifier = toSnake . fromCamel
+    constructorTagModifier = camelTo2 '_'
     sumEncoding = TaggedObject{ tagFieldName = "type", contentsFieldName = "_" }
 
 
