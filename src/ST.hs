@@ -1,3 +1,5 @@
+{-# LANGUAGE DeriveFunctor #-}
+
 module ST where
 
 import Data.IORef (IORef, modifyIORef, newIORef, readIORef, writeIORef)
@@ -15,7 +17,9 @@ reorderMyData f (MyData strs ints) = MyData (f strs) (f ints)
 
 
 newtype ST s a = ST { unST :: IO a }
-  deriving (Functor, Applicative, Monad)
+  deriving stock Functor
+  deriving newtype Applicative
+  deriving Monad via IO
 
 newtype STRef s a = STRef { unSTRef :: IORef a }
 

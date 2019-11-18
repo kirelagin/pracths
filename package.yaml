@@ -10,9 +10,11 @@ default-extensions:
 #  - BangPatterns
   - ConstraintKinds
   - DataKinds
-#  - DeriveGeneric
-#  - DerivingStrategies
-#  - DerivingVia
+  - DefaultSignatures
+  - DeriveAnyClass
+  - DeriveGeneric
+  - DerivingStrategies
+  - DerivingVia
   - ExistentialQuantification
   - FlexibleContexts
   - FlexibleInstances
