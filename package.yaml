@@ -22,12 +22,14 @@ default-extensions:
 #  - LambdaCase
   - MultiParamTypeClasses
 #  - NamedFieldPuns
-#  - OverloadedStrings
+  - OverloadedLabels
+  - OverloadedStrings
+  - PartialTypeSignatures
   - PolyKinds
 #  - QuantifiedConstraints
   - RankNTypes
   - ScopedTypeVariables
-#  - StandaloneDeriving
+  - StandaloneDeriving
 #  - TemplateHaskell
 #  - TupleSections
   - TypeApplications
@@ -54,7 +56,8 @@ dependencies:
 
 library:
   source-dirs: src
-  dependencies: []
+  dependencies:
+    - mtl
 
 executables:
   dsl:
