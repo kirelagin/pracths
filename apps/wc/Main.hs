@@ -1,8 +1,9 @@
 module Main where
 
 import Data.Char (isSpace)
-import Data.List (foldl')
 
+import qualified Data.ByteString.Lazy as BSL
+import qualified Data.ByteString.Lazy.Char8 as C8
 import qualified System.Environment as Env
 import qualified System.IO as IO
 
@@ -23,11 +24,11 @@ data CountResult = CountResult
 
 run :: String -> IO ()
 run fp = IO.withFile fp IO.ReadMode $ \h -> do
-  str <- IO.hGetContents h
+  str <- BSL.hGetContents h
   print $ count str
 
-count :: String -> CountResult
-count s = foldl' go (CountResult 0 0 False 0) s
+count :: BSL.ByteString -> CountResult
+count s = C8.foldl' go (CountResult 0 0 False 0) s
   where
     go :: CountResult -> Char -> CountResult
     go (CountResult ls wc prevW bs) c =
