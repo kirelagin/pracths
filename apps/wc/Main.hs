@@ -23,7 +23,7 @@ data CountResult = CountResult
   deriving Show
 
 run :: String -> IO ()
-run fp = IO.withFile fp IO.ReadMode $ \h -> do
+run fp = IO.withBinaryFile fp IO.ReadMode $ \h -> do
   str <- BSL.hGetContents h
   print $ count str
 
