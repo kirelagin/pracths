@@ -1,7 +1,10 @@
 module Main where
 
+import Control.Concurrent.Async (forConcurrently)
 import Data.Char (isSpace)
 import Data.Monoid (Sum (Sum))
+import GHC.Conc (getNumCapabilities)
+import System.Directory (getFileSize)
 
 import qualified Data.ByteString.Lazy as BSL
 import qualified Data.ByteString.Lazy.Char8 as C8
@@ -47,9 +50,19 @@ instance Show CountResult where
     show l <> "\t" <> show w <> "\t" <> show b
 
 run :: String -> IO ()
-run fp = IO.withBinaryFile fp IO.ReadMode $ \h -> do
-  str <- BSL.hGetContents h
-  print $ count str
+run fp = do
+  size <- getFileSize fp :: IO Integer
+  slices <- getNumCapabilities
+  print slices
+  let chunkSize = (fromIntegral size + slices - 1) `div` slices
+  counts <- forConcurrently [0 .. slices - 1] $ \i ->
+    IO.withBinaryFile fp IO.ReadMode $ \h -> do
+      IO.hSeek h IO.AbsoluteSeek (fromIntegral $ i * chunkSize)
+      str <- BSL.take (fromIntegral chunkSize) <$> BSL.hGetContents h
+      --let result = count str in result `seq` pure result
+      pure $! count str
+  print $ mconcat counts
+
 
 count :: BSL.ByteString -> CountResult
 count s = C8.foldl' go mempty s
