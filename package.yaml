@@ -66,6 +66,7 @@ library:
     - servant
     - servant-client
     - servant-server
+    - async
 
 executables:
   dsl:
@@ -85,6 +86,16 @@ executables:
     dependencies:
       - pracths
       - warp
+
+    ghc-options:
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+
+  wc:
+    main: Main.hs
+    source-dirs: apps/wc
+    dependencies: []
 
     ghc-options:
       - -threaded
